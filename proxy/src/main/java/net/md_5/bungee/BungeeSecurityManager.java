@@ -17,13 +17,17 @@ public class BungeeSecurityManager extends SecurityManager
         for ( int i = 2; i < context.length; i++ )
         {
             ClassLoader loader = context[i].getClassLoader();
+            ProxyServer.getInstance().getLogger().log( Level.WARNING, "SecurityManager Debug: context name = "+context[i].getName());
+            ProxyServer.getInstance().getLogger().log( Level.WARNING, "SecurityManager Debug: loader = "+loader.toString());
 
             // Bungee can do everything
             if ( loader == ClassLoader.getSystemClassLoader() )
             {
+                ProxyServer.getInstance().getLogger().log( Level.WARNING, "SecurityManager debug: 'Bungee can do everything'");
                 break;
             }
 
+            ProxyServer.getInstance().getLogger().log( Level.WARNING, "SecurityManager Debug: 'loader is null!'");
             // Allow external packages from the system class loader to create threads.
             if ( loader == null )
             {
@@ -57,6 +61,7 @@ public class BungeeSecurityManager extends SecurityManager
     @Override
     public void checkAccess(ThreadGroup g)
     {
+        ProxyServer.getInstance().getLogger().log( Level.WARNING, "SecurityManager Debug: ThreadGroup match = "+!(g instanceof GroupedThreadFactory.BungeeGroup)+" | name = "+g.getName());
         if ( !( g instanceof GroupedThreadFactory.BungeeGroup ) )
         {
             checkRestricted( "Illegal thread group access" );
